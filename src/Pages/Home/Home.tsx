@@ -11,11 +11,12 @@ import {
 } from "@mantine/core";
 
 import { ListContext } from "../../context";
-import { Item, SelectInput } from "../../types";
+import { Category, Item, SelectInput } from "../../types";
 import { capitalizeFirstLetter } from "../../Shared/utils";
 
 const Home = () => {
   const { createItem } = useContext(ListContext);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [items, setItems] = useState<Item[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [findItem, setFindItem] = useState<string>("");
@@ -40,6 +41,15 @@ const Home = () => {
 
     createItemForm.reset();
   };
+
+  const allCategoriesArray: SelectInput[] = categories.map((category: any) => ({
+    value: capitalizeFirstLetter(category?.category),
+    label: category?.category,
+  }));
+
+  const selectCategory = [
+    ...new Set(allCategoriesArray.map((category) => category.value)),
+  ].map((value) => ({ value, label: value }));
 
   let filteredItems;
 
@@ -73,6 +83,14 @@ const Home = () => {
   };
 
   useEffect(() => {
+    const storedCategories = JSON.parse(
+      localStorage.getItem("categoryList") || "[]"
+    );
+
+    setCategories(storedCategories);
+  }, []);
+
+  useEffect(() => {
     const storedItems = JSON.parse(localStorage.getItem("listItems") || "[]");
 
     setItems(storedItems);
@@ -96,10 +114,7 @@ const Home = () => {
         <Select
           label="Item Categories"
           placeholder="Select category"
-          data={[
-            { value: "food", label: "Food" },
-            { value: "device", label: "Device" },
-          ]}
+          data={selectCategory}
           withScrollArea={false}
           styles={{ dropdown: { maxHeight: 200, overflowY: "auto" } }}
           mt="md"
