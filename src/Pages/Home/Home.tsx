@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useContext, useEffect, useState } from "react";
 import { useForm, isNotEmpty } from "@mantine/form";
 import {
@@ -10,12 +11,14 @@ import {
 } from "@mantine/core";
 
 import { ListContext } from "../../context";
-import { Item } from "../../types";
+import { Item, SelectInput } from "../../types";
+import { capitalizeFirstLetter } from "../../Shared/utils";
 
 const Home = () => {
   const { createItem } = useContext(ListContext);
   const [items, setItems] = useState<Item[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [findItem, setFindItem] = useState<string>("");
 
   const createItemForm = useForm({
     initialValues: {
@@ -38,9 +41,36 @@ const Home = () => {
     createItemForm.reset();
   };
 
-  const filteredItems = items.filter((item) =>
-    item.itemName.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  let filteredItems;
+
+  if (searchQuery.length > 0) {
+    filteredItems = items.filter((item) =>
+      item.itemName.toLowerCase().includes(searchQuery?.toLowerCase())
+    );
+  } else if (findItem.length > 0) {
+    filteredItems = items.filter((item) =>
+      item.itemCategory.toLowerCase().includes(findItem?.toLowerCase())
+    );
+  } else {
+    filteredItems = items;
+  }
+
+  const itemCategoriesArray: SelectInput[] = items.map((item: any) => ({
+    value: capitalizeFirstLetter(item?.itemCategory),
+    label: item?.itemCategory,
+  }));
+
+  const selectData = [
+    ...new Set(itemCategoriesArray.map((item) => item.value)),
+  ].map((value) => ({ value, label: value }));
+
+  const findByCategory = (item: string) => {
+    if (typeof item === "string") {
+      setFindItem(item);
+    } else {
+      setFindItem("");
+    }
+  };
 
   useEffect(() => {
     const storedItems = JSON.parse(localStorage.getItem("listItems") || "[]");
@@ -100,15 +130,33 @@ const Home = () => {
         />
       </Box>
 
+      <Box mx="auto" mt="xl" style={{ width: "400px" }}>
+        <Select
+          label="Item Categories"
+          placeholder="Select category"
+          data={selectData}
+          withScrollArea={false}
+          styles={{ dropdown: { maxHeight: 200, overflowY: "auto" } }}
+          mt="md"
+          withAsterisk
+          clearable
+          onChange={findByCategory}
+        />
+      </Box>
+
       <Box mt="md" mx="auto">
         <h2>All Items:</h2>
-        <ul>
-          {filteredItems.map((item, index) => (
-            <li key={index}>
-              {item.itemName} - {item.itemCategory}
-            </li>
-          ))}
-        </ul>
+        {filteredItems.length > 0 ? (
+          <ul>
+            {filteredItems.map((item, index) => (
+              <li key={index}>
+                {item.itemName} - {item.itemCategory}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No data found!</p>
+        )}
       </Box>
     </Box>
   );
