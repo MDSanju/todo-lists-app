@@ -1,6 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useForm, isNotEmpty } from "@mantine/form";
-import { Button, Group, TextInput, Box, Select } from "@mantine/core";
+import {
+  Button,
+  Group,
+  TextInput,
+  Box,
+  Select,
+  CloseButton,
+} from "@mantine/core";
 
 import { ListContext } from "../../context";
 import { Item } from "../../types";
@@ -8,6 +15,7 @@ import { Item } from "../../types";
 const Home = () => {
   const { createItem } = useContext(ListContext);
   const [items, setItems] = useState<Item[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const createItemForm = useForm({
     initialValues: {
@@ -29,6 +37,10 @@ const Home = () => {
 
     createItemForm.reset();
   };
+
+  const filteredItems = items.filter((item) =>
+    item.itemName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   useEffect(() => {
     const storedItems = JSON.parse(localStorage.getItem("listItems") || "[]");
@@ -71,10 +83,27 @@ const Home = () => {
         </Group>
       </Box>
 
-      <Box mt="xl">
+      <Box mx="auto" mt="xl" style={{ width: "400px" }}>
+        <TextInput
+          placeholder="Search items"
+          value={searchQuery}
+          onChange={(event) => setSearchQuery(event.currentTarget.value)}
+          rightSection={
+            <CloseButton
+              c="gray"
+              size={24}
+              aria-label="Clear input"
+              onClick={() => setSearchQuery("")}
+              style={{ display: searchQuery ? undefined : "none" }}
+            />
+          }
+        />
+      </Box>
+
+      <Box mt="md" mx="auto">
         <h2>All Items:</h2>
         <ul>
-          {items.map((item, index) => (
+          {filteredItems.map((item, index) => (
             <li key={index}>
               {item.itemName} - {item.itemCategory}
             </li>
