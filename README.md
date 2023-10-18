@@ -1,27 +1,19 @@
-# React + TypeScript + Vite
+# TODO List Items App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Technologies:
 
-Currently, two official plugins are available:
+`TypeScript` - `React.JS` - `Mantine UI` - `Vite`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features:
 
-## Expanding the ESLint configuration
+- `Routes`: There are two routes `/home` & `/categories`. Also it has 404 page.
+- `Add Item:` User can add items under existing categories - (Homepage).
+- `Item Lists:` User can see all added items here, those items can be able to search by item name & filter by category name. Categories select option also there - (Homepage).
+- `Pagination:` Pagination has been implemented, per page it is showing 5 data - (Both Page).
+- `Copy Clipboard:` User can copy content - (Both Page).
+- `Add Category:` User can add category names, to add items, users must add category and the they can be able to add an item under the added category - (Categories Page).
+- `Category Lists:` User can see all added categories here, pagination and copy content features also there.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Note:
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- `Use Node Version 18 or more and yarn to run this project locally!`
