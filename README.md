@@ -1,5 +1,7 @@
 # TODO List Items App
 
+Live site: `https://todo-list-items-app.vercel.app/`
+
 ## Technologies:
 
 `TypeScript` - `React.JS` - `Mantine UI` - `Vite`

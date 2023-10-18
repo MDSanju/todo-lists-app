@@ -108,7 +108,7 @@ const Categories = () => {
   }, []);
 
   return (
-    <Box style={{ margin: "24px 42px 64px 42px" }}>
+    <Box style={{ margin: "24px 20px 64px 20px" }}>
       <Title
         order={2}
         mb={24}
