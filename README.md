@@ -1,6 +1,6 @@
 # TODO List Items App
 
-Live site: `https://todo-list-items-app.vercel.app/`
+Live site [here](https://todo-list-items-app.vercel.app/)
 
 ## Technologies:
 
