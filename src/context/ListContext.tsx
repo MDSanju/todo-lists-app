@@ -26,8 +26,6 @@ export default function ListProvider({ children }: ListContextProviderProps) {
     const updatedItems = JSON.stringify(existingItems);
 
     localStorage.setItem("listItems", updatedItems);
-
-    console.log(localStorage.getItem("listItems"));
   };
 
   const createCategory = (categories: Category[]) => {
